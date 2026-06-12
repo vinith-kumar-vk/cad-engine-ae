@@ -203,12 +203,21 @@ export default function Header() {
                 const isActive = pathname === link.href;
 
                 if (link.hasDropdown) {
+                  const isLinkActive = pathname === link.href || pathname.startsWith(link.href);
                   return (
-                    <div key={link.name} className="space-y-3">
-                      <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest pl-3">
+                    <div key={link.name} className="space-y-2">
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`text-lg font-bold transition-all py-2 pl-3 border-l-4 block ${
+                          isLinkActive
+                            ? "text-brand-primary border-brand-primary bg-slate-50"
+                            : "text-slate-700 hover:text-brand-primary border-transparent"
+                        }`}
+                      >
                         {link.name}
-                      </span>
-                      <div className="flex flex-col gap-3 pl-6 border-l border-slate-200">
+                      </Link>
+                      <div className="flex flex-col gap-3 pl-6 border-l border-slate-200 ml-3 mt-1">
                         {dropdownItems.map((item) => (
                           <Link
                             key={item.name}
