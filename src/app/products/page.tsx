@@ -38,7 +38,7 @@ export default function ProductsPage() {
       {/* Product Selection Tabs */}
       <section className="py-8 bg-white border-b border-slate-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center border-b border-slate-100 pb-2 overflow-x-auto gap-2 md:gap-4 scrollbar-none">
+          <div className="flex justify-start md:justify-center border-b border-slate-100 pb-2 overflow-x-auto gap-2 md:gap-4 scrollbar-none">
             {products.map((p) => (
               <button
                 key={p.id}
