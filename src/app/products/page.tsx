@@ -12,6 +12,70 @@ import { Accordion } from "@/components/ui/Accordion";
 // Data
 import { products, productComparison, productFaqs } from "@/data/siteData";
 
+const getProductLogs = (productId: string) => {
+  switch (productId) {
+    case "smartbim-platform":
+      return {
+        logs: [
+          "Initializing BIM Viewer Engine v16.2...",
+          "Loading Model: main_tower_LOD400.rvt",
+          "Running ISO 19650 Compliance Check...",
+          "Success: 1,402 elements audited (0 errors)",
+          "BCF Server: Listening on port 8080"
+        ],
+        status: "Sandbox Online • Ready",
+        version: "v16.2.0"
+      };
+    case "constructiq":
+      return {
+        logs: [
+          "ConstructIQ Core v2.1.0 starting...",
+          "Extracting QTO from Revit structural nodes...",
+          "Matched 4,892 concrete nodes with catalog.",
+          "Simulating 4D timeline: 120 stages generated.",
+          "Export estimate to XLS: $12.4M (deviation <1.5%)"
+        ],
+        status: "ML Engine Online • Forecast Done",
+        version: "v2.1.0"
+      };
+    case "designflow":
+      return {
+        logs: [
+          "DesignFlow AutoCAD LISP runner loaded.",
+          "Scanning 48 sheet layouts for standards check...",
+          "Sheet index synced. Title blocks updated.",
+          "Publishing: 48 PDF files generated.",
+          "Purged 23.4MB of layout drawing caches."
+        ],
+        status: "AutoCAD Plugin Ready • 48 Sheets Bound",
+        version: "v5.4.1"
+      };
+    case "assetvision":
+      return {
+        logs: [
+          "AssetVision Digital Twin Bridge connected.",
+          "Connecting SCADA and IoT sensor API nodes...",
+          "Subscribed to 1,489 temperature & occupancy logs.",
+          "Streaming real-time building telemetry datasets...",
+          "COBie database sync: 24,092 asset nodes live."
+        ],
+        status: "Digital Twin Synced • Stream Active",
+        version: "v3.1.2"
+      };
+    default:
+      return {
+        logs: [
+          "System starting up...",
+          "Loading core dependencies...",
+          "Connecting database...",
+          "All services ready."
+        ],
+        status: "System Ready",
+        version: "v1.0.0"
+      };
+  }
+};
+
 export default function ProductsPage() {
   const [activeTab, setActiveTab] = useState(products[0].id);
 
@@ -133,24 +197,29 @@ export default function ProductsPage() {
                   </span>
                 </div>
 
-                <div className="space-y-4 my-8 relative z-10">
-                  <div className="h-2 w-1/3 bg-slate-800 rounded animate-pulse" />
-                  <div className="h-3 w-3/4 bg-slate-700 rounded animate-pulse" />
-                  <div className="h-2 w-5/6 bg-slate-800 rounded animate-pulse" />
-                  <div className="h-2 w-2/3 bg-slate-800 rounded animate-pulse animate-delay-100" />
-                  <div className="border border-brand-accent/25 rounded p-3 bg-brand-primary/5 flex items-start gap-2">
+                <div className="flex-1 flex flex-col justify-between my-6 relative z-10 min-h-[160px]">
+                  <div className="space-y-2.5 font-mono text-[9px] md:text-[10.5px] text-slate-400">
+                    {getProductLogs(currentProduct.id).logs.map((log, idx) => (
+                      <div key={idx} className="flex gap-2 items-start">
+                        <span className="text-slate-600 select-none">&gt;</span>
+                        <span className={idx === 3 || idx === 4 ? "text-emerald-400 font-semibold" : ""}>{log}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="border border-brand-accent/20 rounded p-3 bg-brand-primary/5 flex items-start gap-2.5 mt-4">
                     <Info size={14} className="text-brand-accent shrink-0 mt-0.5" />
-                    <div className="space-y-1">
-                      <span className="block text-[10px] font-mono text-white">System Status</span>
-                      <span className="block text-[9px] font-mono text-brand-accent uppercase tracking-wider font-bold">
-                        Sandbox online &bull; Ready
+                    <div className="space-y-0.5">
+                      <span className="block text-[9px] font-mono text-slate-400 uppercase tracking-wider">System Status</span>
+                      <span className="block text-[10px] font-mono text-brand-accent uppercase tracking-wider font-bold">
+                        {getProductLogs(currentProduct.id).status}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t border-slate-850 pt-4 flex justify-between items-center text-[10px] font-mono text-slate-500 relative z-10">
-                  <span>Version: 3.4.1</span>
+                  <span>Version: {getProductLogs(currentProduct.id).version}</span>
                   <span>CAD Engine Cloud</span>
                 </div>
               </div>
