@@ -15,6 +15,7 @@ interface HeroVideoProps {
 export default function HeroVideo({ videoSrc, poster, title, subtitle }: HeroVideoProps) {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (videoRef.current && videoRef.current.readyState >= 3) {
@@ -56,7 +57,10 @@ export default function HeroVideo({ videoSrc, poster, title, subtitle }: HeroVid
   });
 
   return (
-    <section className="relative w-full h-[80vh] min-h-[600px] flex items-center justify-start overflow-hidden bg-slate-950 text-white">
+    <section 
+      ref={sectionRef}
+      className="relative w-full h-[80vh] min-h-[450px] md:min-h-[600px] flex items-center justify-start overflow-hidden bg-slate-950 text-white"
+    >
       {/* 1. Poster Image (Prevents flashing during video loading) */}
       <AnimatePresence>
         {!videoLoaded && (
@@ -222,7 +226,14 @@ export default function HeroVideo({ videoSrc, poster, title, subtitle }: HeroVid
         animate={{ opacity: 0.7, y: 0 }}
         transition={{ delay: 1.5, duration: 0.8 }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 cursor-pointer hover:opacity-100 transition-opacity"
-        onClick={() => window.scrollTo({ top: window.innerHeight * 0.8, behavior: "smooth" })}
+        onClick={() => {
+          if (sectionRef.current) {
+            window.scrollTo({
+              top: sectionRef.current.offsetHeight,
+              behavior: "smooth"
+            });
+          }
+        }}
       >
         <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Scroll Down</span>
         <motion.div
