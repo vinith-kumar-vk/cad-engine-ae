@@ -123,106 +123,60 @@ export default function ProductsPage() {
       {/* Active Product Showcase */}
       <section className="py-20 bg-white relative">
         <div className="absolute inset-0 engineering-grid opacity-[0.01] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Overview & Key benefits */}
-            <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <span className="text-brand-primary text-xs font-bold uppercase tracking-wider block">
-                  Product Overview
-                </span>
-                <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-                  {currentProduct.title}
-                </h2>
-                <p className="text-brand-primary text-base font-semibold leading-relaxed italic">
-                  "{currentProduct.tagline}"
-                </p>
-                <p className="text-slate-655 text-sm md:text-base leading-relaxed pt-2">
-                  {currentProduct.overview}
-                </p>
-              </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Overview & Key benefits */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <span className="text-brand-primary text-xs font-bold uppercase tracking-wider block">
+                Product Overview
+              </span>
+              <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                {currentProduct.title}
+              </h2>
+              <p className="text-brand-primary text-base font-semibold leading-relaxed italic">
+                "{currentProduct.tagline}"
+              </p>
+              <p className="text-slate-655 text-sm md:text-base leading-relaxed pt-2">
+                {currentProduct.overview}
+              </p>
+            </div>
 
-              {/* Features grid */}
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                <h3 className="font-bold text-slate-950 text-base">Key Capabilities</h3>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {currentProduct.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5">
-                      <div className="h-5 w-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-xs font-bold">{idx + 1}</span>
-                      </div>
-                      <span className="text-slate-650 text-xs leading-relaxed">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Benefits checklist */}
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                <h3 className="font-bold text-slate-950 text-base">Business Impact</h3>
-                <div className="space-y-2.5">
-                  {currentProduct.benefits.map((benefit, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
-                      <span className="text-slate-700 text-sm font-semibold">{benefit}</span>
+            {/* Features grid */}
+            <div className="space-y-4 pt-4 border-t border-slate-100">
+              <h3 className="font-bold text-slate-950 text-base">Key Capabilities</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentProduct.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <div className="h-5 w-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-xs font-bold">{idx + 1}</span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <span className="text-slate-650 text-xs leading-relaxed">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <div className="pt-6">
-                <Link
-                  href={`/contact?service=SaaS:${encodeURIComponent(currentProduct.title)}`}
-                  className="inline-flex items-center justify-center bg-brand-primary hover:bg-brand-primary-hover text-white font-bold px-7 py-3.5 rounded-lg transition shadow-md shadow-brand-primary/20 gap-2 cursor-pointer text-sm md:text-base group"
-                >
-                  Schedule Live Sandbox Demo
-                  <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
-                </Link>
+            {/* Benefits checklist */}
+            <div className="space-y-4 pt-4 border-t border-slate-100">
+              <h3 className="font-bold text-slate-950 text-base">Business Impact</h3>
+              <div className="space-y-2.5">
+                {currentProduct.benefits.map((benefit, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
+                    <span className="text-slate-700 text-sm font-semibold">{benefit}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Product visual mockup panel */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              <div className="relative w-full max-w-[400px] aspect-[4/3] rounded-2xl overflow-hidden bg-slate-950 p-6 flex flex-col justify-between border border-slate-800 shadow-xl">
-                <div className="absolute inset-0 engineering-grid opacity-[0.05]" />
-                
-                <div className="flex items-center justify-between border-b border-slate-850 pb-3 relative z-10">
-                  <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-red-500/50" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-amber-500/50" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/50" />
-                  </div>
-                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">
-                    {currentProduct.title}.log
-                  </span>
-                </div>
-
-                <div className="flex-1 flex flex-col justify-between my-6 relative z-10 min-h-[160px]">
-                  <div className="space-y-2.5 font-mono text-[9px] md:text-[10.5px] text-slate-400">
-                    {getProductLogs(currentProduct.id).logs.map((log, idx) => (
-                      <div key={idx} className="flex gap-2 items-start">
-                        <span className="text-slate-600 select-none">&gt;</span>
-                        <span className={idx === 3 || idx === 4 ? "text-emerald-400 font-semibold" : ""}>{log}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="border border-brand-accent/20 rounded p-3 bg-brand-primary/5 flex items-start gap-2.5 mt-4">
-                    <Info size={14} className="text-brand-accent shrink-0 mt-0.5" />
-                    <div className="space-y-0.5">
-                      <span className="block text-[9px] font-mono text-slate-400 uppercase tracking-wider">System Status</span>
-                      <span className="block text-[10px] font-mono text-brand-accent uppercase tracking-wider font-bold">
-                        {getProductLogs(currentProduct.id).status}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="border-t border-slate-850 pt-4 flex justify-between items-center text-[10px] font-mono text-slate-500 relative z-10">
-                  <span>Version: {getProductLogs(currentProduct.id).version}</span>
-                  <span>CAD Engine Cloud</span>
-                </div>
-              </div>
+            <div className="pt-6">
+              <Link
+                href={`/contact?service=SaaS:${encodeURIComponent(currentProduct.title)}`}
+                className="inline-flex items-center justify-center bg-brand-primary hover:bg-brand-primary-hover text-white font-bold px-7 py-3.5 rounded-lg transition shadow-md shadow-brand-primary/20 gap-2 cursor-pointer text-sm md:text-base group"
+              >
+                Schedule Live Sandbox Demo
+                <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
             </div>
           </div>
         </div>
