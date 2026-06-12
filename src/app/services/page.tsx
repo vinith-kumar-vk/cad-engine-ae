@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
@@ -14,13 +15,55 @@ function IconHelper({ name, className }: { name: string; className?: string }) {
   return <LucideIcon className={className} />;
 }
 
+const categories = [
+  { name: "BIM Services", id: "bim" },
+  { name: "CAD Services", id: "cad" },
+  { name: "Engineering", id: "engineering" },
+  { name: "Technology", id: "technology" }
+];
+
 export default function ServicesPage() {
-  const categories = [
-    { name: "BIM Services", id: "bim" },
-    { name: "CAD Services", id: "cad" },
-    { name: "Engineering", id: "engineering" },
-    { name: "Technology", id: "technology" }
-  ];
+  const [activeSection, setActiveSection] = useState("bim");
+
+  useEffect(() => {
+    // Check initial hash on mount
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (hash && categories.some(cat => cat.id === hash)) {
+        setActiveSection(hash);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Scroll spy logic
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 180; // offset for sticky headers
+
+      for (const cat of categories) {
+        const el = document.getElementById(cat.id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(cat.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    // Run after a short delay so layout resolves
+    const timer = setTimeout(handleScroll, 150);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <div className="relative">
@@ -41,18 +84,33 @@ export default function ServicesPage() {
       </section>
 
       {/* Categories Anchor Navigation Bar */}
-      <div className="sticky top-[64px] md:top-[76px] z-40 bg-white border-b border-slate-200/60 shadow-sm">
+      <div className="sticky top-[72px] md:top-[84px] z-40 bg-white border-b border-slate-200/60 shadow-sm transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-start md:justify-center gap-6 md:gap-10 overflow-x-auto py-4 scrollbar-none">
-            {categories.map((cat) => (
-              <a
-                key={cat.id}
-                href={`#${cat.id}`}
-                className="text-sm font-bold text-slate-600 hover:text-brand-primary whitespace-nowrap transition-colors"
-              >
-                {cat.name}
-              </a>
-            ))}
+          <div className="flex justify-start md:justify-center gap-6 md:gap-10 overflow-x-auto pt-4 pb-0 scrollbar-none">
+            {categories.map((cat) => {
+              const isActive = activeSection === cat.id;
+              return (
+                <a
+                  key={cat.id}
+                  href={`#${cat.id}`}
+                  onClick={() => setActiveSection(cat.id)}
+                  className={`text-sm font-extrabold whitespace-nowrap transition-all duration-200 pb-3.5 relative ${
+                    isActive
+                      ? "text-brand-primary"
+                      : "text-slate-600 hover:text-brand-primary"
+                  }`}
+                >
+                  {cat.name}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeCategoryIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-primary rounded-full z-10"
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
